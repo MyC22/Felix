@@ -10,9 +10,15 @@ repositories {
 }
 
 dependencies {
+
+
+    implementation 'org.apache.commons:commons-text:1.10.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation 'org.javacord:javacord:3.8.0'
+    implementation 'org.jsoup:jsoup:1.16.1'
+    implementation 'org.json:json:20230618'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     runtimeOnly 'org.apache.logging.log4j:log4j-core:2.17.0'
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'

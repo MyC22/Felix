@@ -1,6 +1,7 @@
 package ComandosUsuarios;
 
 import Commands.Command;
+import org.apache.commons.lang3.StringUtils;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.Message;
@@ -17,20 +18,21 @@ public class UserInfo extends Command {
         super(api);
 
         api.addMessageCreateListener(event ->
-                userInfoResponse(super.getCanal(), super.getMensaje()));
+                userInfoResponse(super.getChannel(), super.getMessage()));
     }
 
-    public void userInfoResponse(TextChannel canal, Message mensaje) {
-        String[] msj = mensaje.getContent().split(" ");
-
+    public void userInfoResponse(TextChannel channel, Message message) {
+        String[] msj = message.getContent().split(" ");
+        if (!StringUtils.equalsIgnoreCase(String.valueOf(message.getContent().charAt(0)),("$")))
+            return;
         if (msj.length == 1 && msj[0].equalsIgnoreCase("$user")) {
-            canal.sendMessage("Para obtener la informacion de un usuario escriba, $user [nombre]");
+            channel.sendMessage("Para obtener la informacion de un usuario escriba, $user [nombre]");
         }
         else if (msj.length == 2 && msj[0].equalsIgnoreCase("$user")) {
             String mencionUsuario = msj[1];
 
-            if (mensaje.getMentionedUsers().isEmpty()) {
-                canal.sendMessage("Por favor mencione a alguien");
+            if (message.getMentionedUsers().isEmpty()) {
+                channel.sendMessage("Por favor mencione a alguien");
                 return;
             }
 
@@ -38,7 +40,7 @@ public class UserInfo extends Command {
             DateTimeFormatter formatear = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
             String fechaFormateada = fechaActual.format(formatear);
 
-            User usuarioMencionado = mensaje.getMentionedUsers().get(0);
+            User usuarioMencionado = message.getMentionedUsers().get(0);
             EmbedBuilder infoEmbed = new EmbedBuilder()
                     .setTitle(usuarioMencionado.getName() + " Info:")
                     .setColor(Color.MAGENTA)
@@ -47,7 +49,7 @@ public class UserInfo extends Command {
                     .addField("Fch. Creación", usuarioMencionado.getCreationTimestamp().toString(), true)
                     .setThumbnail(usuarioMencionado.getAvatar().getUrl().toString())
                     .setFooter(fechaFormateada);
-            canal.sendMessage(infoEmbed);
+            channel.sendMessage(infoEmbed);
         }
     }
 }

@@ -1,6 +1,7 @@
 package ComandosUsuarios;
 
 import Commands.Command;
+import org.apache.commons.lang3.StringUtils;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.Icon;
 import org.javacord.api.entity.channel.TextChannel;
@@ -18,18 +19,19 @@ public class Avatar extends Command {
         super(api);
 
         api.addMessageCreateListener(event ->
-                ShowAvatar(super.getCanal(), super.getMensaje()));
+                ShowAvatar(super.getChannel(), super.getMessage()));
     }
 
-    public void ShowAvatar(TextChannel canal, Message mensaje){
-        String msj[] = mensaje.getContent().split(" ");
+    public void ShowAvatar(TextChannel channel, Message message){
+        String msj[] = message.getContent().split(" ");
+        if (!StringUtils.equalsIgnoreCase(String.valueOf(message.getContent().charAt(0)),("$")))
+            return;
         if (msj.length == 1 && msj[0].equalsIgnoreCase("$avatar")){
-            canal.sendMessage("Para obtener el avatar de un usuario escriba, $avatar [nombre]");
+            channel.sendMessage("Para obtener el avatar de un usuario escriba, $avatar [nombre]");
         }
         else if (msj.length == 2 && msj[0].equalsIgnoreCase("$avatar")) {
-
-            if (mensaje.getMentionedUsers().isEmpty()){
-                canal.sendMessage("Por favor mencione a un Usuario");
+            if (message.getMentionedUsers().isEmpty()){
+                channel.sendMessage("Por favor mencione a un Usuario");
                 return;
             }
 
@@ -37,13 +39,13 @@ public class Avatar extends Command {
             DateTimeFormatter formatear = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
             String fechaFormateada = fechaActual.format(formatear);
 
-            User usuarioMencionado = mensaje.getMentionedUsers().get(0);
+            User usuarioMencionado = message.getMentionedUsers().get(0);
             Icon avatar = usuarioMencionado.getAvatar();
             EmbedBuilder avatarEmbed = new EmbedBuilder()
                     .setTitle(usuarioMencionado.getName() + " Avatar:")
                     .setImage(avatar)
                     .setFooter(fechaFormateada);
-            canal.sendMessage(avatarEmbed);
+            channel.sendMessage(avatarEmbed);
         }
 
     }

@@ -2,11 +2,9 @@ package Managment;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.Icon;
-
-import java.io.File;
-import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -23,6 +21,7 @@ public class BotInfo {
     @Getter @Setter private static int serverCount;
     @Getter @Setter private static int userCount;
 
+    @SneakyThrows
     public BotInfo(DiscordApi api){
         ownerId = String.valueOf(api.getOwnerId());
         botId = api.getYourself().getIdAsString();
@@ -31,6 +30,6 @@ public class BotInfo {
         botImage = api.getYourself().getAvatar();
         serverCount = api.getServers().size();
 
-       // tenorApiKey = Files.readAllLines(Paths.get());
+        tenorApiKey = Files.readAllLines(Paths.get("C:\\Users\\CK\\Documents\\MyCkel\\Data\\Hidden\\tenor.txt")).get(0);
     }
 }

@@ -16,11 +16,11 @@ import java.util.List;
 public class Command {
 
     private DiscordApi api;
-    private TextChannel canal;
-    private Message mensaje;
-    private MessageAuthor mensajeAutor;
-    private User usuario;
-    private Server servidor;
+    private TextChannel channel;
+    private Message message;
+    private MessageAuthor author;
+    private User user;
+    private Server server;
     private String key;
     private String comando;
     private List<String> arg;
@@ -29,22 +29,22 @@ public class Command {
         this.api = api;
 
         api.addMessageCreateListener(event -> {
-           mensaje = event.getMessage();
-           canal = event.getChannel();
-           servidor = event.getServer().get();
-           mensajeAutor = event.getMessageAuthor();
-           key = mensaje.getContent().split("\\s")[0];
+           message = event.getMessage();
+           channel = event.getChannel();
+           server = event.getServer().get();
+           author = event.getMessageAuthor();
+           key = message.getContent().split("\\s")[0];
             arg = new ArrayList<>();
         });
     }
 
-    public boolean obCommand(DiscordApi api, Message mensaje, Server servidor , ArrayList arg){
+    public boolean obCommand(DiscordApi api, Message message, Server server , ArrayList arg){
         comando = Thread.currentThread().getStackTrace()[3].getClassName().split("\\.")[1];
         api.addMessageCreateListener(event -> {
-            setServidor(event.getServer().get());
+            setServer(event.getServer().get());
         });
 
-        for (String argumento: mensaje.getContent().split("\\s")) {
+        for (String argumento: message.getContent().split("\\s")) {
             if (argumento.equals(key)){
                 continue;
             }
@@ -55,7 +55,7 @@ public class Command {
     }
 
     public boolean obCommand(){
-        return obCommand(this.api, this.mensaje, this.servidor, (ArrayList) this.arg);
+        return obCommand(this.api, this.message, this.server, (ArrayList) this.arg);
     }
 
 

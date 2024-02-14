@@ -14,14 +14,14 @@ public class ToxicResponse extends Command {
         super(api);
 
         api.addMessageCreateListener(event ->
-                responseToxic(super.getCanal(), super.getServidor(), super.getMensaje(), super.getMensajeAutor()));
+                responseToxic(super.getChannel(), super.getServer(), super.getMessage(), super.getAuthor()));
     }
 
     @SneakyThrows
-    public void responseToxic(TextChannel canal, Server servidor, Message mensaje, MessageAuthor mensajeAutor){
-        if (mensaje.getContent().equalsIgnoreCase("bot de mierda")){
-            canal.sendMessage("A quien le dices bot de mierda tu maldita kgada");
-            canal.sendMessage("Si te estoy hablando a ti" + "<@" + mensajeAutor.getIdAsString()+">");
+    public void responseToxic(TextChannel channel, Server server, Message message, MessageAuthor author){
+        if (message.getContent().equalsIgnoreCase("este bot es horrible")){
+            channel.sendMessage("Oye no digas esas cosas en este servidor si no quieres tener problemas");
+            channel.sendMessage("Si te estoy hablando a ti" + "<@" + author.getIdAsString()+">");
             Thread.sleep(1000);
         }
     }
