@@ -20,10 +20,10 @@ public class Hug extends Command {
         super(api);
 
         api.addMessageCreateListener(event ->
-                hugComando(super.getChannel(), super.getMessage(), super.getAuthor(), super.getArg()));
+                hugComand(super.getChannel(), super.getMessage(), super.getAuthor(), super.getArg()));
     }
 
-    public void hugComando(TextChannel channel, Message message, MessageAuthor author, List<String> args) {
+    public void hugComand(TextChannel channel, Message message, MessageAuthor author, List<String> args) {
         String msj[] = message.getContent().split(" ");
         // Verificar si el mensaje comienza con "$hug"
         if (!msj[0].equalsIgnoreCase("$hug")) {
